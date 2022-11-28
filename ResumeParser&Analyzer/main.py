@@ -3,12 +3,12 @@ from docx import Document
 from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory
 from flask_wtf import FlaskForm
 from flask_cors import CORS
-from wtforms import FileField, SubmitField
+from wtforms import StringField, FileField, SubmitField
 from werkzeug.utils import secure_filename
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, DataRequired
 import nltk
-import os
 import fitz
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -17,8 +17,6 @@ app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx']
 
 
-
-'''
 def open_file(filename):
     docs = fitz.open(filename)
     txt = ''
@@ -26,7 +24,6 @@ def open_file(filename):
         txt = txt + str(page.get_text())
     tx = ' '.join(txt.split('\n'))
     return tx
-'''
 
 
 @app.errorhandler(413)
@@ -56,9 +53,11 @@ def home():
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'],
                                    secure_filename(file.filename)))  # then save the file
 
-            #tx = open_file(f'C:/Users/NISHU/N_Spyder/ResumeParser&Analyzer/static/files/{filename}')
-            # print(tx)
-        return redirect(url_for('home'))
+            tx = open_file(f'C:\\Users\\NISHU\\Desktop\\ResumeParser&Analyzer\\static\\files\\{filename}')
+
+        jd = request.form['jd']
+        jd = jd.upper()
+        return render_template('result.html', jd=jd, tx=tx)
 
     return render_template('home.html', form=form)
 

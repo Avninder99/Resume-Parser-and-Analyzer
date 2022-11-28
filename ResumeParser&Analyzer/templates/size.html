@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
+
 {% block content %}
+
 <div class="container-fluid bg-light" style="height: calc(100vh - 56px);">
     <div class="d-flex flex-column justify-content-center align-items-center pt-5">
         <img class="m-auto my-5" style="width: 400px;" src={{ url_for('static', filename='too_large.svg') }}>
@@ -7,4 +9,5 @@
         <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3" style="width: 100px;"> Go Back </a>
     </div>
 </div>
+
 {% endblock content %}
