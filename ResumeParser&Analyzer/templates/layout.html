@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        p {
+            font-size: 36px;
+        }
+        .mycontainer {
+            margin: 50px 200px;
+            color: black
+        }
+        #custom-button {
+            padding: 10px;
+            color: white;
+            background-color: #800080;
+            border: 1px solid rgb(0, 0, 0);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #custom-button:hover {
+            background-color: #00b28f;
+        }
+
+        #custom-text {
+            margin-left: 10px;
+            font-family: sans-serif;
+            color: #aaa;
+        }
+    </style>
+    <title>ResumeParser&Analyzer</title>
+</head>
+
+
+<body>
+    <style>
+        body {
+                background-image: url({{url_for('static', filename='ATS.png')}});
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: cover;
+
+            }
+    </style>
+    <nav class="navbar bg-black">
+        <div class="container">
+          <a class="navbar-brand text-white" href="#">
+            <!-- <i class="fa-regular fa-file-user"></i> -->
+              <h3>RESUME PARSER & ANALYZER</h3>
+          </a>
+        </div>
+      </nav>
+    {% block content %}{% endblock %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+</body>
+</html>

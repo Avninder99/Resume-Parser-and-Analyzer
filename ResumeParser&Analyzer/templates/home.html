@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form method='POST' enctype='multipart/form-data'>
+        <div class="mycontainer">
+            <p>Upload Resume:</p>
+            <br>
+            {{form.hidden_tag()}}
+            {{form.file()}}
+            <br> <br> <br> <br> <br>
+
+            <p>Job Description:</p>
+            <br>
+            <textarea type="text" placeholder="Job Description..." class="form-control" id="exampleFormControlTextarea1" name="jd" rows="4" required></textarea>
+            <br> <br>
+            <input type="submit">
+        </div>
+    </form>
+{% endblock content %}
