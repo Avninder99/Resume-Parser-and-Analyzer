@@ -46,6 +46,14 @@
         #file-upload-button {
             border: 100%;
         }
+
+        #nav {
+            background-color: #262536;
+        }
+
+        #back-btn {
+            background-color: #36354b;
+        }
     </style>
     <title>Resume Parser & Analyzer</title>
 </head>
@@ -60,10 +68,17 @@
                 background-size: cover; */
                 background-color: #f8f9fa;
             }
+        /* #nav {
+            background-color: #00b0ff;
+        } */
+        #parsed-resume-holder {
+            overflow-y: scroll;
+            max-height: 85%;
+        }
     </style>
-    <nav class="navbar bg-black">
+    <nav class="navbar" id="nav">
         <div class="container">
-          <a class="navbar-brand text-white" href="#">
+          <a class="navbar-brand text-white" href="{{ url_for('home') }}">
             <!-- <i class="fa-regular fa-file-user"></i> -->
               <h3>RESUME PARSER & ANALYZER</h3>
           </a>
