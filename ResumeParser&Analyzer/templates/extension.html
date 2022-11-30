@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container-fluid bg-light" style="height: calc(100vh - 68px);">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <img class="m-auto my-5" style="width: 400px;" src={{ url_for('static', filename='not_supported.svg') }}>
+        <p class="display-4 text-center">The file type is not supported.</p>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3" id="back-btn" style="width: 100px;"> Go Back </a>
+    </div>
+</div>
+
+{% endblock content %}

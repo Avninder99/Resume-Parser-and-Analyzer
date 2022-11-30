@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    
+    <div class="container-fluid p-0 d-flex flex-row" style="height: calc(100vh - 68px)">
+        <div class="bg-light col-8">
+            <div class="formContainer">
+                <form method='POST' enctype='multipart/form-data'>
+                    <div class="container">
+                        <p>Upload Resume:</p>
+                        <br>
+                        {{form.hidden_tag()}}
+                        {{form.file()}}
+                        
+                        <p class="mt-5">Job Description:</p>
+                        <br>
+                        <textarea type="text" placeholder="Job Description..." class="form-control" id="exampleFormControlTextarea1" name="jd" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-info mt-5">Show results</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-4 bg-light pt-5">
+            <img class="img-holder mt-5 pt-3" src={{ url_for('static', filename='organize_resume.svg') }}>
+        </div>
+    </div>
+
+{% endblock content %}s

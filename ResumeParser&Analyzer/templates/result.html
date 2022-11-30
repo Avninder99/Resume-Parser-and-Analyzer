@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<font>
+    <div class="container-fluid p-0 d-flex flex-row" style="height: calc(100vh - 68px)">
+        <div class="bg-light col-8 p-5">
+            <div class="my-3">
+                <h3>Job Description:</h3>
+                {{ jd }}
+            </div>
+            <br> <br>
+            <h3>Resume:</h3>
+            <div id="parsed-resume-holder">
+                {{ tx }}
+            </div>
+            <br> <br>
+            <div class="my-3">
+                <h3>Similarity Percentage:</h3>
+                {{ similarity_percentage }}
+            </div>
+        </div>
+        <div class="col-4 bg-light pt-5 position-fixed end-0">
+            <img class="img-holder mt-4 pt-3" src={{ url_for('static', filename='result.svg') }}>
+        </div>
+    </div>
+</font>
+
+{% endblock content %}
