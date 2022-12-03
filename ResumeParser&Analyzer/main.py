@@ -2,11 +2,11 @@ import os
 import nltk
 import fitz
 from docx import Document
+import textdistance as td
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from nltk import WordNetLemmatizer
 from nltk.corpus import stopwords
-from difflib import SequenceMatcher
 from pyresparser import ResumeParser
 from werkzeug.utils import secure_filename
 from wtforms import FileField, SubmitField
@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = 'static/files'
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
-app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx']
+app.config['UPLOAD_EXTENSIONS'] = ['.pdf']
 
 
 def open_file(filename):
@@ -49,12 +49,17 @@ def stopwords_removal(text):
         words = nltk.word_tokenize(text[i])
         words = [lemmatizer.lemmatize(word) for word in words if word not in set(stopwords.words('english'))]
         text[i] = ' '.join(words)
+    text = ''.join(map(str, text))
     return text
 
 
-def similarity(tx, jd):
-    s = SequenceMatcher(None, tx, jd).ratio() * 100
-    return s
+def match(resume, job_des):
+    j = td.jaccard.similarity(resume, job_des)
+    s = td.sorensen_dice.similarity(resume, job_des)
+    c = td.cosine.similarity(resume, job_des)
+    o = td.overlap.normalized_similarity(resume, job_des)
+    total = round((j + s + c + o) / 4, 5)
+    return total * 100
 
 
 @app.errorhandler(413)
@@ -76,6 +81,7 @@ def home():
         file = form.file.data  # first grab the file
 
         filename = secure_filename(file.filename)
+        path = f'C:\\Users\\NISHU\\PycharmProjects\\Resume-Parser-and-Analyzer\\ResumeParser&Analyzer\\static\\files\\{filename}'
         if filename != '':
             file_ext = os.path.splitext(filename)[1]
             if file_ext not in app.config['UPLOAD_EXTENSIONS']:
@@ -84,16 +90,15 @@ def home():
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'],
                                    secure_filename(file.filename)))  # then save the file
 
-            tx = process_resume(f'C:\\Users\\NISHU\\Desktop\\Copy\\ResumeParser&Analyzer\\static\\files\\{filename}')
+            tx = process_resume(path)
 
-        filename = f'C:\\Users\\NISHU\\Desktop\\Copy\\ResumeParser&Analyzer\\static\\files\\{filename}'
-        resume = open_file(filename)
+        resume = open_file(path)
         resume = stopwords_removal(resume)
 
         jd = request.form['jd']
         # jd = stopwords_removal(jd)
 
-        similarity_percentage = similarity(jd, resume)
+        similarity_percentage = match(jd, resume)
         return render_template('result.html', jd=jd, tx=tx, similarity_percentage=similarity_percentage)
 
     return render_template('home.html', form=form)
