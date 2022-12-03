@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = 'static/files'
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
-app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx']
+app.config['UPLOAD_EXTENSIONS'] = ['.pdf']
 
 
 def open_file(filename):
