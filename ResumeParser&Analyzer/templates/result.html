@@ -3,72 +3,124 @@
 {% block content %}
 
 <font>
-    <div class="container-fluid p-0 d-flex flex-row" style="height: calc(100vh - 68px)">
-        <div class="bg-light col-8 p-5" id="info-sec">
-            <!-- <div class="my-3">
-                <h3>Job Description:</h3>
-                {{ jd }}
-            </div>
-            <br> <br> -->
-            <div class="top-holder">
-                <p class="display-6 mb-5">Resume Match Percentage</p>
-                <p class="display-5 per-holder">{{ similarity_percentage }}<span class="display-6">%</span></p>
-                <div class="progress my-3 mx-5 mb-5">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{similarity_percentage}}%"></div>
+    <style>
+        .chart {
+            position:relative;
+            margin:40px;
+            width:220px; height:220px;
+        }
+        canvas {
+            display: block;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+        .chart > span {
+            color:rgb(6, 232, 111);
+            display:block;
+            line-height:220px;
+            text-align:center;
+            width:220px;
+            font-family:sans-serif;
+            font-size:40px;
+            font-weight:100;
+            margin-left:5px;
+        }
+
+        input {
+            width: 200px;
+        }
+    </style>
+    <div class="res-body">
+        <div class="outer-div row">
+            <div class="left-div col-3">
+                <div class="">
+                    <img class="img-holder" src={{ url_for('static', filename='result.svg') }}>
                 </div>
             </div>
-            <h3 class="display-5 heading2">Resume Breakdown</h3>
-            <div class="p-5 d-flex flex-column" id="parsed-resume-holder">
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">Name</span>
-                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1 content-holder">{{ tx.name }}</div>
-                </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">Email</span> 
-                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.email }}</div>
-                </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">Mobile Number</span>
-                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.mobile_number }}</div>
-                </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">College</span>
-                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.college_name }}</div>
-                </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">Degree</span>
-                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.degree }}</div>
-                </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">Skills</span>
-                    <div class="content-holder">
-                        {% for skill in tx.skills %}
-                            <div class="d-inline-block border border-2 rounded-pill border-success px-2 py-1 bg-success bg-opacity-10 m-1">
-                                {{skill}}
-                            </div>
-                        {% endfor %}
+            <div class="right-div col-9 pb-5">
+                <div class="d-flex align-items-end justify-content-end my-4 me-5">
+                    <div class="btn-group mr-5">
+                        <a href="#" class="btn1 btn btn-primary active" aria-current="page">Match Percentage</a>
+                        <a href="#" class="btn2 btn btn-primary">Resume Breakdown</a>
+                        <a href="#" class="btn3 btn btn-primary">Job Description Breakdown</a>
                     </div>
                 </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block pb-2 subSectionHeading">Designation</span>
-                    <div class="content-holder">
-                        {% for des in tx.designation %}
-                            <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1">
-                                {{des}}
+                <div class="sec1 d-flex flex-column align-items-center justify-content-center">
+                    <div class="chart" id="graph" color="blue" data-percent={{similarity_percentage}}></div>
+                    <p class="display-6 mb-3 pb-2 border-bottom border-2">Your resume matched {{similarity_percentage}}% with the job description</p>
+                </div>
+                <div class="sec2 d-none">
+                    <div class=" d-flex flex-column px-5" id="parsed-resume-holder">
+                        <div class="d-flex flex-row justify-content-between my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-inline-block pb-2 subSectionHeading ">Name:</span>
+                            <div id="holder1">
+                                <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1 content-holder" id="secVal">{{ tx.name }}</div>
                             </div>
-                        {% endfor %}
+                        </div>
+                        <div class="d-flex flex-row justify-content-between my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-inline-block pb-2 subSectionHeading">Email:</span> 
+                            <div id="holder1">
+                                <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder" id="secVal">{{ tx.email }}</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-inline-block pb-2 subSectionHeading">Mobile Number:</span>
+                            <div id="holder1">
+                                <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder" id="secVal">{{ tx.mobile_number }}</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-inline-block pb-2 subSectionHeading">College:</span>
+                            <div id="holder1">
+                                <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder" id="secVal">{{ tx.college_name }}</div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-inline-block pb-2 subSectionHeading">Degree:</span>
+                            <div id="holder1">
+                                <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder" id="secVal">{{ tx.degree }}</div>
+                            </div>
+                        </div>
+                        <div class="my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-block pb-2 subSectionHeading">Skills:</span>
+                            <div class="content-holder">
+                                {% for skill in tx.skills %}
+                                    <div class="d-inline-block border border-2 rounded-pill border-success px-2 py-1 bg-success bg-opacity-10 m-1">
+                                        {{skill}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-block pb-2 subSectionHeading">Designation:</span>
+                            <div class="content-holder">
+                                {% for des in tx.designation %}
+                                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1">
+                                        {{des}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between my-2 p-3 border-bottom border-3" id="subSections">
+                            <span class="d-inline-block px-2 pb-2 subSectionHeading">Total Experience:</span>
+                            <div id="holder1">
+                                <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder " id="secVal">{{ tx.total_experience }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="my-2 p-3" id="subSections">
-                    <span class="d-block px-2 pb-2 subSectionHeading">Total Experience</span>
-                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.total_experience }}</div>
+                <div class="sec3 d-none" id="desc-outer">
+                    <div class=" d-flex flex-column px-5" id="description-holder">
+                        <p class="display-6 mb-3 pb-2 border-bottom border-2">Job Description</p>
+                        {{jd}}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam corporis eius aperiam, obcaecati amet corrupti sapiente assumenda doloribus maiores dignissimos! Magni rem velit neque cupiditate esse, ea assumenda consequuntur blanditiis. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias, fuga minima, odit reprehenderit culpa temporibus cupiditate quo velit quia itaque minus quisquam optio excepturi nesciunt. Consequuntur reprehenderit quam, fuga autem sed quas sapiente accusamus harum deleniti quo laborum vel quasi asperiores maiores dicta neque nihil placeat mollitia corporis veritatis enim sunt ad totam. Omnis ipsa delectus dolor assumenda? Atque laborum laboriosam quasi tenetur nam officiis sequi placeat error optio aliquam sit repudiandae illum aperiam facilis eveniet, nisi assumenda quidem magni? Ea ut, beatae dicta quibusdam dolores consectetur molestias ducimus mollitia necessitatibus expedita dignissimos hic earum maiores unde voluptatibus velit pariatur sequi deleniti asperiores eum distinctio! Dicta adipisci molestias incidunt aspernatur consectetur. Sapiente optio ullam, laborum eos quam voluptas doloribus ut exercitationem atque ex aliquid explicabo? Repellendus deleniti officia ea accusantium soluta, earum iusto numquam eligendi, excepturi ex enim itaque dolore doloribus incidunt a consequatur eos. Dicta eum voluptatibus impedit maiores optio enim, accusantium cumque aspernatur nostrum, vitae esse? Recusandae eos sit ipsum sint itaque cupiditate vel libero fugiat molestias. Quasi illo pariatur officia incidunt cumque dicta iusto dolorem modi obcaecati maiores magnam accusantium, nihil minima ipsa laudantium temporibus officiis ut, sunt aliquid fugit consequuntur ullam odio amet! Nam animi architecto delectus. Aut mollitia ipsum illum deserunt. Veniam dicta, quidem debitis nesciunt vel voluptate placeat fuga, excepturi quos ipsum totam asperiores dolore esse. Omnis accusamus iusto maxime, inventore architecto alias odio consequatur neque tempore quod. Aspernatur exercitationem accusantium numquam, unde officiis tenetur velit recusandae facilis autem alias consequatur in sapiente eligendi maiores distinctio et possimus est nostrum impedit. Nesciunt laborum atque quae eligendi soluta repellendus in, necessitatibus ea pariatur aut omnis cum, saepe earum accusantium eveniet corporis dolores impedit minus corrupti ducimus expedita labore maiores? Commodi aliquid adipisci laudantium? Sunt id eligendi eveniet et a quia, beatae assumenda ullam, accusantium labore odit aut doloremque maiores veritatis sint eos, dolorum nihil vel. Eveniet debitis amet perferendis reprehenderit iusto nulla, ullam, sed nemo veritatis consequuntur officiis aliquid pariatur. Facere officiis fugiat ut porro qui, quibusdam reprehenderit odit perspiciatis pariatur totam quae esse! Nemo a ab nobis tenetur est dolores molestias necessitatibus ea rem consequuntur, voluptate aliquam nisi veritatis ad in nam atque laborum cupiditate recusandae expedita delectus aperiam eum quae. Consequatur facilis doloremque odio quam nobis ipsa. Praesentium soluta repellat odit earum, a voluptatum magnam dolorem deleniti totam aspernatur tempora quibusdam fugiat fugit quae illum in dolores excepturi optio! Sunt nostrum placeat fugiat repudiandae eum debitis nihil dolorum, est laudantium unde, dignissimos, ipsam veritatis non quis voluptatum? Beatae soluta est neque deserunt. Asperiores quam cupiditate dolorem, suscipit error beatae repudiandae, quod, animi commodi quibusdam itaque distinctio quidem maiores quae accusantium? Ipsam doloremque facilis velit ullam. Beatae delectus, natus veritatis molestiae autem sed atque, nesciunt totam voluptatum nemo iusto maiores, sit deserunt aspernatur. Error qui perferendis, quisquam, quidem doloremque non accusamus deleniti, itaque consectetur dicta dolore sunt ullam esse delectus sed. Quidem sit fugiat officiis commodi repellendus tempora. Fuga, error. Atque, quis ducimus. Ipsam unde accusamus reprehenderit velit possimus tenetur adipisci consequuntur nam hic?
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-4 bg-light pt-5 position-fixed end-0">
-            <img class="img-holder mt-4 pt-3" src={{ url_for('static', filename='result.svg') }}>
         </div>
     </div>
+    <script src={{ url_for('static', filename='app.js') }}></script>
 </font>
 
 {% endblock content %}
