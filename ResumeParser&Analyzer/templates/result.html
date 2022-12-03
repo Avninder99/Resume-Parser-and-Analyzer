@@ -4,20 +4,65 @@
 
 <font>
     <div class="container-fluid p-0 d-flex flex-row" style="height: calc(100vh - 68px)">
-        <div class="bg-light col-8 p-5">
-            <div class="my-3">
+        <div class="bg-light col-8 p-5" id="info-sec">
+            <!-- <div class="my-3">
                 <h3>Job Description:</h3>
                 {{ jd }}
             </div>
-            <br> <br>
-            <h3>Resume:</h3>
-            <div id="parsed-resume-holder">
-                {{ tx }}
+            <br> <br> -->
+            <div class="top-holder">
+                <p class="display-6 mb-5">Resume Match Percentage</p>
+                <p class="display-5 per-holder">{{ similarity_percentage }}<span class="display-6">%</span></p>
+                <div class="progress my-3 mx-5 mb-5">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{similarity_percentage}}%"></div>
+                </div>
             </div>
-            <br> <br>
-            <div class="my-3">
-                <h3>Similarity Percentage:</h3>
-                {{ similarity_percentage }}
+            <h3 class="display-5 heading2">Resume Breakdown</h3>
+            <div class="p-5 d-flex flex-column" id="parsed-resume-holder">
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">Name</span>
+                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1 content-holder">{{ tx.name }}</div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">Email</span> 
+                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.email }}</div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">Mobile Number</span>
+                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.mobile_number }}</div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">College</span>
+                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.college_name }}</div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">Degree</span>
+                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.degree }}</div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">Skills</span>
+                    <div class="content-holder">
+                        {% for skill in tx.skills %}
+                            <div class="d-inline-block border border-2 rounded-pill border-success px-2 py-1 bg-success bg-opacity-10 m-1">
+                                {{skill}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block pb-2 subSectionHeading">Designation</span>
+                    <div class="content-holder">
+                        {% for des in tx.designation %}
+                            <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1">
+                                {{des}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="my-2 p-3" id="subSections">
+                    <span class="d-block px-2 pb-2 subSectionHeading">Total Experience</span>
+                    <div class="d-inline-block border border-2 rounded-pill border-primary px-2 py-1 bg-primary bg-opacity-10 m-1content-holder">{{ tx.total_experience }}</div>
+                </div>
             </div>
         </div>
         <div class="col-4 bg-light pt-5 position-fixed end-0">
