@@ -9,9 +9,13 @@ const sec3 = document.querySelector(".sec3");
 btn1.addEventListener("click", () => {
     // alert("hi")
     // btn1.toggleAttribute("active");
-    btn1.classList.add("active");
-    btn2.classList.remove("active");
-    btn3.classList.remove("active");
+    btn1.classList.add("bg-white");
+    btn1.classList.remove("active");
+
+    btn2.classList.add("active");
+    btn3.classList.add("active");
+    btn2.classList.remove("bg-white");
+    btn3.classList.remove("bg-white");
 
     sec1.classList.remove("d-none");
     sec2.classList.add("d-none");
@@ -21,9 +25,13 @@ btn1.addEventListener("click", () => {
 btn2.addEventListener("click", () => {
     // alert("hi")
     // btn1.toggleAttribute("active");
-    btn2.classList.add("active");
-    btn1.classList.remove("active");
-    btn3.classList.remove("active");
+    btn2.classList.add("bg-white");
+    btn2.classList.remove("active");
+
+    btn1.classList.add("active");
+    btn3.classList.add("active");
+    btn1.classList.remove("bg-white");
+    btn3.classList.remove("bg-white");
 
     sec2.classList.remove("d-none");
     sec1.classList.add("d-none");
@@ -32,9 +40,13 @@ btn2.addEventListener("click", () => {
 btn3.addEventListener("click", () => {
     // alert("hi")
     // btn1.toggleAttribute("active");
-    btn3.classList.add("active");
-    btn1.classList.remove("active");
-    btn2.classList.remove("active");
+    btn3.classList.add("bg-white");
+    btn3.classList.remove("active");
+
+    btn1.classList.add("active");
+    btn2.classList.add("active");
+    btn1.classList.remove("bg-white");
+    btn2.classList.remove("bg-white");
 
     sec3.classList.remove("d-none");
     sec1.classList.add("d-none");
