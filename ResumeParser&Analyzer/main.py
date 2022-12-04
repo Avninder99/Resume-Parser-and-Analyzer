@@ -58,7 +58,7 @@ def match(resume, job_des):
     s = td.sorensen_dice.similarity(resume, job_des)
     c = td.cosine.similarity(resume, job_des)
     o = td.overlap.normalized_similarity(resume, job_des)
-    total = round((j + s + c + o) / 4, 5)
+    total = round((j + s + c + o) / 4, 4)
     return total * 100
 
 
@@ -96,7 +96,7 @@ def home():
         resume = stopwords_removal(resume)
 
         jd = request.form['jd']
-        # jd = stopwords_removal(jd)
+        jd = jd.upper()
 
         similarity_percentage = match(jd, resume)
         return render_template('result.html', jd=jd, tx=tx, similarity_percentage=similarity_percentage)
